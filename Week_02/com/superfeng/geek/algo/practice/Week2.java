@@ -1,9 +1,6 @@
 package com.superfeng.geek.algo.practice;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Week2
@@ -301,9 +298,152 @@ public class Week2 {
         }
     }
 
+    /**
+     * <a href="https://leetcode-cn.com/problems/valid-anagram/">
+     * <strong>
+     * 242.字母异位词
+     * </strong>
+     * </a>
+     */
+    public static boolean isAnagram(String s, String t) {
+        int sLength = s.length();
+        int tLength = t.length();
+        if (sLength != tLength) {
+            return false;
+        }
+        int[] alpha = new int[26];
+        for (int i = 0; i < sLength; i++) {
+            alpha[s.charAt(i) - 'a']++;
+            alpha[t.charAt(i) - 'a']--;
+        }
+        for (int i = 0; i < alpha.length; i++) {
+            if (alpha[i] != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void practiceStack() {
+
+        Stack<Integer> stack = new Stack<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.push(4);
+        System.out.println("stack中的内容：" + stack.toString());
+        stack.pop();
+        stack.pop();
+        int num = stack.search(3);
+        System.out.println("元素3是否存在：" + (num == -1));
+        Integer stackNum = stack.peek();
+        System.out.println("pop两个操作后栈顶的元素：" + stackNum);
+        System.out.println("stack剩余元素：" + stack.toString());
+    }
+
+    public static void practiceQueue() {
+        Queue<String> queue = new LinkedList<>();
+        queue.offer("one");
+        queue.add("two");
+        queue.offer("three");
+        queue.offer("four");
+        System.out.println("队列中的内容：" + queue.toString());
+
+        String s = queue.peek();
+        System.out.println("队头元素：" + s);
+        System.out.println("输出队头元素one: " + queue.poll());
+        //System.out.println("输出队头元素two: " + queue.remove());
+
+    }
+
+    public static void practiceDequeue() {
+        Deque<String> deque = new LinkedList<>();
+        deque.addFirst("1");
+        deque.addFirst("2");
+        deque.addLast("5");
+        deque.add("3");
+        System.out.println("双端队列头：" + deque.getFirst());
+        System.out.println("双端队列尾：" + deque.getLast());
+        System.out.println("双端队列：" + deque.toString());
+        System.out.println("pop出双端队列" + deque.pop());
+        System.out.println("双端队列：" + deque.toString());
+        System.out.println(deque.offer("6"));
+        System.out.println(deque.toString());
+        deque.clear();
+        System.out.println(deque.poll());
+        System.out.println(deque.remove());
+
+    }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/group-anagrams/"><strong>
+     * 49.字母异位词分组
+     * </strong></a>
+     *
+     * @param strs
+     * @return
+     */
+    public static List<List<String>> groupAnagrams(String[] strs) {
+
+        // 1.暴力法
+        /*
+        List<List<String>> answer = new ArrayList<>();
+        boolean[] used = new boolean[strs.length];
+        for (int i = 0; i < strs.length; i++) {
+            List<String> temp = null;
+            if (!used[i]) {
+                temp = new ArrayList<>();
+                temp.add(strs[i]);
+                for (int j = i + 1; j < strs.length; j++) {
+                    boolean isAnagrams = isAnagram(strs[i], strs[j]);
+                    if (isAnagrams) {
+                        temp.add(strs[j]);
+                        used[j] = true;
+                    }
+                }
+            }
+            if (null != temp) {
+                answer.add(temp);
+            }
+        }*/
+        // 2.hash
+        Map<String, List<String>> hashLists = new HashMap<>();
+        for (int i = 0; i < strs.length; i++) {
+            char[] s = strs[i].toCharArray();
+            Arrays.sort(s);
+            String key = String.valueOf(s);
+            if (hashLists.containsKey(key)) {
+                Objects.requireNonNull(hashLists.put(key, hashLists.get(key))).add(strs[i]);
+            } else {
+                List<String> temp = new ArrayList<>();
+                temp.add(strs[i]);
+                hashLists.put(key, temp);
+            }
+        }
+        return new ArrayList<>(hashLists.values());
+    }
+
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> hashMap = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (hashMap.containsKey(target - nums[i])) {
+                return new int[] {i, target - nums[i]};
+            } else {
+                hashMap.put(target - nums[i], i);
+            }
+        }
+        return new int[0];
+    }
+
+    /**
+     * 主函数
+     */
     public static void main(String[] args) {
+        //practiceStack();
+        //practiceQueue();
+        practiceDequeue();
         //"MinStack","push","push","push","push","pop","getMin","pop","getMin","pop","getMin"]
-		//	[[],[512],[-1024],[-1024],[512],[],[],[],[],[],[]]
+        //	[[],[512],[-1024],[-1024],[512],[],[],[],[],[],[]]
         MinStack_2 minStack = new MinStack_2();
         minStack.push(512);
         minStack.push(-1024);
@@ -351,6 +491,6 @@ public class Week2 {
         //    result1 = result1.next;
         //}
         //System.out.println();
-
     }
+
 }
