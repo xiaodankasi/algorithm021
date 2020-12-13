@@ -103,7 +103,6 @@ public class TreeNode{
    * 前序递归调用二叉树存入list
    */
    public void preOrder(TreeNode node){
-       List<TreeNode> list = new ArrayList<>();
        list.add(node);
        if(node.left != null){
            preOrder(node.left); 
@@ -125,7 +124,6 @@ public class TreeNode{
    * 中序递归调用二叉树存入list
    */
    public void inOrder(TreeNode node){
-       List<TreeNode> list = new ArrayList<>();
        if(node.left != null){
            inOrder(node.left); 
        }
@@ -161,9 +159,9 @@ public class TreeNode{
    ```
    /**
    * 后序递归调用二叉树存入list
+   * list预先定义
    */
    public void postOrder(TreeNode node){
-       List<TreeNode> list = new ArrayList<>();
        if(node.left != null){
            postOrder(node.left); 
        }
