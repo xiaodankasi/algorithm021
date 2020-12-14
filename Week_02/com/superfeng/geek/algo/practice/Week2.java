@@ -436,6 +436,44 @@ public class Week2 {
     }
 
     /**
+     * <a href="https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/">
+     * <strong>
+     * 剑指Offer40 最小的K个数
+     * </strong>
+     * </a>
+     *
+     * @param arr 入参数组
+     * @param k   k值
+     * @return 最小的K个数
+     */
+    public static int[] getLeastNumbers(int[] arr, int k) {
+        // 常规判断
+        if (null == arr || k == 0 || arr.length == 0) {
+            return new int[0];
+        }
+        // 利用大顶堆求出最小的k个数
+        // 大顶堆的特点是可以迅速找到最大值的数据结构，即堆顶即为最大，
+        // 那么当大小为k的堆的堆顶元素小于数组中的其他所有元素时堆内的元素就是最小的K个数
+        PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2) -> o2 - o1);
+        for (int num : arr) {
+            if (pq.size() < k) {
+                pq.offer(num);
+            } else {
+                if (num < pq.peek()) {
+                    pq.poll();
+                    pq.offer(num);
+                }
+            }
+        }
+        int[] res = new int[k];
+        int idx = 0;
+        for (int num : pq) {
+            res[idx++] = num;
+        }
+        return res;
+    }
+
+    /**
      * 主函数
      */
     public static void main(String[] args) {
