@@ -6,7 +6,7 @@
 
 #### 代码模板
 
-```
+``` java
 public void recur (int levle, int param){
     
     // terminator
@@ -42,7 +42,7 @@ public void recur (int levle, int param){
 
 #### 代码模板
 
-```分治代码模板
+``` python
     def divide_conquer(problem, param1, param2, ...):
       # recursion terminator
       if problem is None:
